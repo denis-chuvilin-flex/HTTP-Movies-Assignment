@@ -8,7 +8,7 @@ import MovieCard from './MovieCard';
 function Movie({ addToSavedList }) {
   const [movie, setMovie] = useState(null);
 
-  const params = useParams();
+  const { id } = useParams();
   const { push } = useHistory();
 
   const fetchMovie = (id) => {
@@ -23,8 +23,8 @@ function Movie({ addToSavedList }) {
   };
 
   useEffect(() => {
-    fetchMovie(params.id);
-  }, [params.id]);
+    fetchMovie(id);
+  }, [id]);
 
   if (!movie) {
     return <div>Loading movie information...</div>;
@@ -37,7 +37,7 @@ function Movie({ addToSavedList }) {
       <div className="save-button" onClick={saveMovie}>
         Save
       </div>
-      <button onClick={() => push(`/update-movie/${params.id}`)}> Update Movie</button>
+      <button onClick={() => push(`/update-movie/${id}`)}> Update Movie</button>
     </div>
   );
 }

@@ -5,7 +5,7 @@ import { useParams, useHistory } from 'react-router-dom';
 function UpdateForm(props) {
     console.log('props', props)
   const [formState, setFormState] = useState({
-    id: props.movieList.length,
+    id: '',
     title: '',
     director: '',
     metaScore: '',
