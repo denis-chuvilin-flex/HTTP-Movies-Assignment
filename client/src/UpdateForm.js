@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useParams, useHistory } from 'react-router-dom';
 
 function UpdateForm(props) {
-    console.log('props', props)
+  console.log('props', props);
   const [formState, setFormState] = useState({
     id: '',
     title: '',
@@ -22,7 +22,7 @@ function UpdateForm(props) {
       .catch((err) => {
         console.log({ Error: err.message });
       });
-  },[id]);
+  }, [id]);
 
   const handleChange = (e) => {
     setFormState({ [e.target.name]: e.target.value });
@@ -31,7 +31,29 @@ function UpdateForm(props) {
   const handleSubmit = () => {
     axios.put();
   };
-  return null;
+  return (
+    <div className="update-form">
+      <form onSubmit={handleSubmit}>
+        <label>
+          Title <input name="title" onChange={handleChange} value={formState.title} />
+        </label>
+        <br />
+        <label>
+          Director <input name="director" onChange={handleChange} value={formState.director} />
+        </label>
+        <br />
+        <label>
+          MetaScore <input name="metascore" onChange={handleChange} value={formState.metascore} />
+        </label>
+        <br />
+        <label>
+          Stars <input name="stars" onChange={handleChange} value={formState.stars} />
+        </label>
+        <br />
+        <button>Update Movie</button>
+      </form>
+    </div>
+  );
 }
 
 export default UpdateForm;
