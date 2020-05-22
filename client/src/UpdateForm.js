@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useHistory } from 'react-router-dom';
+import { findRenderedDOMComponentWithTag } from 'react-dom/test-utils';
 
 function UpdateForm(props) {
-  console.log('props', props);
+  //   console.log('props', props);
   const [formState, setFormState] = useState({
     id: '',
     title: '',
@@ -25,11 +26,26 @@ function UpdateForm(props) {
   }, [id]);
 
   const handleChange = (e) => {
-    setFormState({ [e.target.name]: e.target.value });
+    console.log(formState);
+
+    setFormState({
+      ...formState,
+      [e.target.name]: e.target.name === 'stars' ? e.target.value.split(',') : e.target.value,
+    });
   };
 
-  const handleSubmit = () => {
-    axios.put();
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios
+      .put(`http://localhost:5000/api/movies/${id}`, formState)
+      .then((res) => {
+        console.log({ resData: res.data });
+        props.setMovieList([...props.movieList, formState]);
+        props.getMovieList();
+        console.log('MovieList', props.movieList);
+        push(`/movies/${id}`);
+      })
+      .catch((err) => console.log({ Error: err.message }));
   };
   return (
     <div className="update-form">
@@ -50,7 +66,7 @@ function UpdateForm(props) {
           Stars <input name="stars" onChange={handleChange} value={formState.stars} />
         </label>
         <br />
-        <button>Update Movie</button>
+        <button onClick={handleSubmit}>Submit Update</button>
       </form>
     </div>
   );
